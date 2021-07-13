@@ -27,4 +27,23 @@ function checkLocalDBForPendingUpdates() {
   };
 }
 
-async function updateRemoteDB(body) {}
+async function updateRemoteDB(body) {
+  try {
+    const response = await fetch("/api/transaction/bulk", {
+      method: "POST",
+      body,
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    });
+    const results = await response.json();
+    if (results.length > 0) {
+      const transaction = db.transaction(["BudgetStore"], "readwrite");
+      const objectStore = transaction.objectStore("BudgetStore");
+      objectStore.clear();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
