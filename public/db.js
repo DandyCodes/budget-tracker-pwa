@@ -15,4 +15,16 @@ openIndexedDBRequest.onsuccess = event => {
   }
 };
 
-function checkLocalDBForPendingUpdates() {}
+function checkLocalDBForPendingUpdates() {
+  const transaction = db.transaction(["BudgetStore"], "readwrite");
+  const objectStore = transaction.objectStore("BudgetStore");
+  const getAllLocalRecordsRequest = objectStore.getAll();
+  getAllLocalRecordsRequest.onsuccess = () => {
+    if (getAllLocalRecordsRequest.result.length > 0) {
+      const body = JSON.stringify(getAllLocalRecordsRequest.result);
+      updateRemoteDB(body);
+    }
+  };
+}
+
+async function updateRemoteDB(body) {}
