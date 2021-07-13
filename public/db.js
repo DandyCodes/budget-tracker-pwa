@@ -10,7 +10,6 @@ openIndexedDBRequest.onupgradeneeded = event => {
 
 openIndexedDBRequest.onsuccess = event => {
   db = event.target.result;
-
   if (navigator.onLine) {
     checkLocalDBForPendingUpdates();
   }
