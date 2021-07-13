@@ -48,4 +48,10 @@ async function updateRemoteDB(body) {
   }
 }
 
+function saveRecord(record) {
+  const transaction = db.transaction(["BudgetStore"], "readwrite");
+  const objectStore = transaction.objectStore("BudgetStore");
+  objectStore.add(record);
+}
+
 window.ononline = checkLocalDBForPendingUpdates;
