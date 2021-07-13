@@ -47,3 +47,5 @@ async function updateRemoteDB(body) {
     console.log(err);
   }
 }
+
+window.ononline = checkLocalDBForPendingUpdates;
