@@ -8,14 +8,15 @@ const staticPaths = [
   "/styles.css",
 ];
 
-const staticCache = "static-cache-v1";
-const dynamicCache = "dynamic-cache-v1";
+const staticCacheName = "static-cache-v1";
+const dynamicCacheName = "dynamic-cache-v1";
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(staticCache).then(cache => {
-      return cache.addAll(staticPaths);
-    })
-  );
+self.addEventListener("install", async event => {
+  try {
+    const cache = await event.waitUntil(caches.open(staticCacheName));
+    await cache.addAll(staticPaths);
+  } catch (err) {
+    console.log(err);
+  }
   self.skipWaiting();
 });
