@@ -13,7 +13,7 @@ const dynamicCacheName = "dynamic-cache-v1";
 
 self.addEventListener("install", async event => {
   try {
-    const cache = await event.waitUntil(caches.open(staticCacheName));
+    const cache = await caches.open(staticCacheName);
     await cache.addAll(staticPaths);
   } catch (err) {
     console.log(err);
