@@ -7,3 +7,13 @@ openIndexedDBRequest.onupgradeneeded = event => {
     autoIncrement: true,
   });
 };
+
+openIndexedDBRequest.onsuccess = event => {
+  db = event.target.result;
+
+  if (navigator.onLine) {
+    checkLocalDBForPendingUpdates();
+  }
+};
+
+function checkLocalDBForPendingUpdates() {}
