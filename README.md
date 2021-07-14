@@ -10,6 +10,8 @@ It uses _Mongo_ and _Express_ server-side.
 
 It uses _IndexedDB_ with a _service worker_ and _cache_ client-side.
 
+![a screenshot of the deployed app](./assets/img/screenshot-1.png)
+
 ## Table of Contents:
 
 - [Installation](#installation)
