@@ -1,19 +1,29 @@
 let db;
-const openIndexedDBRequest = indexedDB.open("BudgetDB", 1);
 
-openIndexedDBRequest.onupgradeneeded = event => {
-  db = event.target.result;
-  db.createObjectStore("BudgetStore", {
-    autoIncrement: true,
-  });
-};
+navigator.serviceWorker.oncontrollerchange = start;
+if (navigator.serviceWorker.ready) {
+  start();
+}
 
-openIndexedDBRequest.onsuccess = event => {
-  db = event.target.result;
-  if (navigator.onLine) {
-    checkLocalDBForPendingUpdates();
-  }
-};
+function start() {
+  const openIndexedDBRequest = indexedDB.open("BudgetDB", 1);
+
+  openIndexedDBRequest.onupgradeneeded = event => {
+    db = event.target.result;
+    db.createObjectStore("BudgetStore", {
+      autoIncrement: true,
+    });
+  };
+
+  openIndexedDBRequest.onsuccess = event => {
+    db = event.target.result;
+    if (navigator.onLine) {
+      checkLocalDBForPendingUpdates();
+    }
+  };
+
+  window.ononline = checkLocalDBForPendingUpdates;
+}
 
 function checkLocalDBForPendingUpdates() {
   const transaction = db.transaction(["BudgetStore"], "readwrite");
@@ -54,5 +64,3 @@ function saveRecord(record) {
   const objectStore = transaction.objectStore("BudgetStore");
   objectStore.add(record);
 }
-
-window.ononline = checkLocalDBForPendingUpdates;
