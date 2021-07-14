@@ -56,9 +56,9 @@ async function progressiveFetch(request) {
 
 async function getApiResponse(request) {
   try {
-    const runtimeCache = await caches.open(RUNTIME_CACHE_KEY);
     const response = await fetch(request);
     if (response.status === 200) {
+      const runtimeCache = await caches.open(RUNTIME_CACHE_KEY);
       runtimeCache.put(request.url, response.clone());
     }
     return response;
