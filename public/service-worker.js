@@ -14,10 +14,11 @@ const RUNTIME_CACHE_KEY = "runtime-cache-v1";
 
 self.oninstall = event => event.waitUntil(install());
 self.onactivate = event => event.waitUntil(activate());
-self.onfetch = event =>
-  event.request.method !== "GET"
-    ? null
-    : event.respondWith(progressiveFetch(event.request));
+self.onfetch = event => {
+  if (event.request.method === "GET") {
+    event.respondWith(progressiveFetch(event.request));
+  }
+};
 
 async function install() {
   try {
