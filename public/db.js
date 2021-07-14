@@ -30,7 +30,11 @@ function checkLocalDBForPendingUpdates() {
   getAllLocalRecordsRequest.onsuccess = async () => {
     if (getAllLocalRecordsRequest.result.length > 0) {
       const body = JSON.stringify(getAllLocalRecordsRequest.result);
-      await updateRemoteDB(body);
+      try {
+        await updateRemoteDB(body);
+      } catch (err) {
+        console.log(err);
+      }
     }
     return getRemoteTransactionsAndDisplay();
   };
