@@ -62,14 +62,22 @@ async function getApiResponse(request) {
       runtimeCache.put(request.url, response.clone());
     }
     return response;
-  } catch (err) {
-    const runtimeCache = await caches.open(RUNTIME_CACHE_KEY);
-    return await runtimeCache.match(request);
+  } catch (_err) {
+    try {
+      const runtimeCache = await caches.open(RUNTIME_CACHE_KEY);
+      return await runtimeCache.match(request);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 
 async function getStaticResourceResponse(request) {
-  const staticCache = await caches.open(STATIC_CACHE_KEY);
-  const response = await staticCache.match(request);
-  return response || fetch(request);
+  try {
+    const staticCache = await caches.open(STATIC_CACHE_KEY);
+    const response = await staticCache.match(request);
+    return response || fetch(request);
+  } catch (err) {
+    console.log(err);
+  }
 }
