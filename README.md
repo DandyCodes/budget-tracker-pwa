@@ -20,7 +20,7 @@ It uses _IndexedDB_ with a _service worker_ and _cache_ client-side.
 
 ### Installation
 
-The deployed app can be accessed here:
+The deployed app can be accessed here: https://dandy-budget-tracker-pwa.herokuapp.com/
 
 In Chrome, click `Install Budget Tracker` from the menu in the top right.
 
