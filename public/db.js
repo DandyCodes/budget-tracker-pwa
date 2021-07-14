@@ -1,11 +1,9 @@
 let db;
 
-navigator.serviceWorker.oncontrollerchange = start;
-if (navigator.serviceWorker.ready) {
-  start();
-}
+navigator.serviceWorker.oncontrollerchange = init;
+init();
 
-function start() {
+function init() {
   const openIndexedDBRequest = indexedDB.open("BudgetDB", 1);
 
   openIndexedDBRequest.onupgradeneeded = event => {
