@@ -47,14 +47,14 @@ async function activate() {
 async function progressiveFetch(request) {
   try {
     return request.url.includes("/api/")
-      ? await getApiResponse(request)
-      : await getStaticResourceResponse(request);
+      ? await getRuntimeResource(request)
+      : await getStaticResource(request);
   } catch (err) {
     console.log(err);
   }
 }
 
-async function getApiResponse(request) {
+async function getRuntimeResource(request) {
   try {
     const response = await fetch(request);
     if (response.status === 200) {
@@ -63,16 +63,20 @@ async function getApiResponse(request) {
     }
     return response;
   } catch (_err) {
-    try {
-      const runtimeCache = await caches.open(RUNTIME_CACHE_KEY);
-      return await runtimeCache.match(request);
-    } catch (err) {
-      console.log(err);
-    }
+    return await getCachedRuntimeResource(request);
   }
 }
 
-async function getStaticResourceResponse(request) {
+async function getCachedRuntimeResource(request) {
+  try {
+    const runtimeCache = await caches.open(RUNTIME_CACHE_KEY);
+    return await runtimeCache.match(request);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getStaticResource(request) {
   try {
     const staticCache = await caches.open(STATIC_CACHE_KEY);
     const response = await staticCache.match(request);
